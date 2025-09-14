@@ -2,41 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Ayurvedic Healthcare Design System - Natural wellness meets modern medicine */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base colors - Clean medical whites with warmth */
+    --background: 44 20% 98%;
+    --foreground: 28 15% 15%;
 
+    /* Cards - Subtle warmth for content areas */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 28 15% 15%;
 
+    /* Popovers */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 28 15% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Sage green for healing and balance */
+    --primary: 95 25% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 95 35% 65%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Warm earth tones */
+    --secondary: 44 30% 92%;
+    --secondary-foreground: 28 25% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted tones - Soft and calming */
+    --muted: 44 20% 95%;
+    --muted-foreground: 28 10% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Warm saffron for highlights */
+    --accent: 35 85% 70%;
+    --accent-foreground: 28 25% 15%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Ayurvedic element colors */
+    --earth: 28 40% 65%;
+    --water: 195 35% 70%;
+    --fire: 15 75% 65%;
+    --air: 210 25% 75%;
+    --space: 270 15% 80%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Medical status colors */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    /* Interactive elements */
+    --border: 44 15% 88%;
+    --input: 44 15% 92%;
+    --ring: 95 25% 45%;
+
+    /* Gradients for visual appeal */
+    --gradient-healing: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-earth: linear-gradient(135deg, hsl(var(--earth)), hsl(var(--accent)));
+    --gradient-wellness: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+
+    /* Shadows for depth */
+    --shadow-gentle: 0 2px 12px -4px hsl(var(--primary) / 0.1);
+    --shadow-elevated: 0 8px 24px -8px hsl(var(--primary) / 0.15);
+    --shadow-floating: 0 16px 32px -8px hsl(var(--primary) / 0.2);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-gentle: all 0.2s ease-out;
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -56,41 +89,55 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark mode - Professional medical dark theme */
+    --background: 28 15% 8%;
+    --foreground: 44 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 28 15% 10%;
+    --card-foreground: 44 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 28 15% 10%;
+    --popover-foreground: 44 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 95 35% 55%;
+    --primary-foreground: 28 15% 8%;
+    --primary-glow: 95 45% 75%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 28 15% 15%;
+    --secondary-foreground: 44 20% 85%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 28 10% 12%;
+    --muted-foreground: 28 5% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 35 75% 60%;
+    --accent-foreground: 28 15% 8%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    /* Ayurvedic elements in dark */
+    --earth: 28 30% 55%;
+    --water: 195 25% 60%;
+    --fire: 15 65% 55%;
+    --air: 210 15% 65%;
+    --space: 270 10% 70%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --success: 142 70% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 85% 55%;
+    --warning-foreground: 0 0% 100%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 28 10% 18%;
+    --input: 28 10% 15%;
+    --ring: 95 35% 55%;
+
+    --sidebar-background: 28 15% 8%;
+    --sidebar-foreground: 44 15% 85%;
+    --sidebar-primary: 95 35% 55%;
+    --sidebar-primary-foreground: 28 15% 8%;
+    --sidebar-accent: 28 10% 15%;
+    --sidebar-accent-foreground: 44 15% 85%;
+    --sidebar-border: 28 10% 18%;
+    --sidebar-ring: 95 35% 55%;
   }
 }
 
@@ -100,6 +147,88 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Custom scrollbar for better UX */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
+  }
+}
+
+@layer components {
+  /* Utility classes for common Ayurvedic design patterns */
+  .healing-gradient {
+    background: var(--gradient-healing);
+  }
+
+  .earth-gradient {
+    background: var(--gradient-earth);
+  }
+
+  .wellness-gradient {
+    background: var(--gradient-wellness);
+  }
+
+  .shadow-gentle {
+    box-shadow: var(--shadow-gentle);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .shadow-floating {
+    box-shadow: var(--shadow-floating);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-gentle {
+    transition: var(--transition-gentle);
+  }
+
+  /* Medical card styling */
+  .medical-card {
+    @apply bg-card border border-border rounded-lg shadow-gentle p-6 transition-smooth;
+  }
+
+  .medical-card:hover {
+    @apply shadow-elevated;
+  }
+
+  /* Ayurvedic element indicators */
+  .element-earth {
+    @apply text-earth border-earth/20 bg-earth/5;
+  }
+
+  .element-water {
+    @apply text-water border-water/20 bg-water/5;
+  }
+
+  .element-fire {
+    @apply text-fire border-fire/20 bg-fire/5;
+  }
+
+  .element-air {
+    @apply text-air border-air/20 bg-air/5;
+  }
+
+  .element-space {
+    @apply text-space border-space/20 bg-space/5;
   }
 }
