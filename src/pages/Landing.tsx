@@ -201,6 +201,61 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* How It Works Section */}
+      <section className="py-24 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+              How It Works
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Transform your Ayurvedic practice with three simple steps
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center group">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-6 group-hover:scale-110 transition-transform">
+                <Users className="h-8 w-8" />
+              </div>
+              <div className="space-y-3">
+                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold mx-auto mb-4">1</div>
+                <h3 className="text-xl font-semibold text-foreground">Onboard a Patient</h3>
+                <p className="text-muted-foreground">
+                  Create a patient profile by entering their details and Ayurvedic parameters including constitution, health history, and dietary preferences.
+                </p>
+              </div>
+            </div>
+
+            <div className="text-center group">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-6 group-hover:scale-110 transition-transform">
+                <Brain className="h-8 w-8" />
+              </div>
+              <div className="space-y-3">
+                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold mx-auto mb-4">2</div>
+                <h3 className="text-xl font-semibold text-foreground">Generate Diet Plan</h3>
+                <p className="text-muted-foreground">
+                  Use our intelligent engine to auto-generate a personalized, Ayurveda-compliant diet chart with precise nutritional analysis.
+                </p>
+              </div>
+            </div>
+
+            <div className="text-center group">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-6 group-hover:scale-110 transition-transform">
+                <FileText className="h-8 w-8" />
+              </div>
+              <div className="space-y-3">
+                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold mx-auto mb-4">3</div>
+                <h3 className="text-xl font-semibold text-foreground">Share with Patient</h3>
+                <p className="text-muted-foreground">
+                  Instantly share the diet chart with your patient and track their progress through our integrated patient portal.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Benefits Section */}
       <section id="benefits" className="py-24">
         <div className="container mx-auto px-4">
@@ -270,6 +325,165 @@ const Landing = () => {
                       <span className="px-2 py-1 bg-earth/10 text-earth rounded text-xs">Grounding</span>
                       <span className="px-2 py-1 bg-primary/10 text-primary rounded text-xs">Easy Digest</span>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-24 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+              Trusted by Leading Practitioners
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              See how AyurDiet Pro is transforming Ayurvedic practices across the country
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="medical-card text-center">
+              <div className="space-y-4">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <Stethoscope className="h-8 w-8 text-primary" />
+                </div>
+                <blockquote className="text-muted-foreground italic">
+                  "AyurDiet Pro has revolutionized my practice. I now create comprehensive diet charts in minutes instead of hours, and my patients love the detailed explanations."
+                </blockquote>
+                <div className="space-y-1">
+                  <div className="font-semibold text-foreground">Dr. Anjali Sharma</div>
+                  <div className="text-sm text-muted-foreground">Senior Ayurvedic Physician, AIIMS Delhi</div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="medical-card text-center">
+              <div className="space-y-4">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <Heart className="h-8 w-8 text-primary" />
+                </div>
+                <blockquote className="text-muted-foreground italic">
+                  "The integration of traditional Ayurvedic principles with modern nutrition science is remarkable. My patient outcomes have improved significantly."
+                </blockquote>
+                <div className="space-y-1">
+                  <div className="font-semibold text-foreground">Dr. Ramesh Patel</div>
+                  <div className="text-sm text-muted-foreground">Chief Dietitian, Patanjali Ayurveda Hospital</div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="medical-card text-center">
+              <div className="space-y-4">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <Leaf className="h-8 w-8 text-primary" />
+                </div>
+                <blockquote className="text-muted-foreground italic">
+                  "The extensive food database covering multicultural cuisines has made it easy to cater to patients from diverse backgrounds while maintaining Ayurvedic principles."
+                </blockquote>
+                <div className="space-y-1">
+                  <div className="font-semibold text-foreground">Dr. Priya Nair</div>
+                  <div className="text-sm text-muted-foreground">Consultant Ayurvedic Nutritionist, Kerala Ayurveda</div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Patient Features Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <div className="inline-flex items-center space-x-2 bg-success/10 text-success px-3 py-1 rounded-full text-sm font-medium">
+                  <Heart className="h-4 w-4" />
+                  <span>For Patients</span>
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+                  Empower Your Patients
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  Give your patients the tools they need to succeed with their Ayurvedic journey through our patient-friendly mobile interface.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 p-2 rounded-lg bg-success/10">
+                    <FileText className="h-5 w-5 text-success" />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-semibold text-foreground">Easy-to-Read Diet Charts</h3>
+                    <p className="text-muted-foreground">Beautiful, printable diet charts with recipes and shopping lists</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 p-2 rounded-lg bg-success/10">
+                    <Target className="h-5 w-5 text-success" />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-semibold text-foreground">Progress Tracking</h3>
+                    <p className="text-muted-foreground">Track symptoms, energy levels, and dietary adherence</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 p-2 rounded-lg bg-success/10">
+                    <Clock className="h-5 w-5 text-success" />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-semibold text-foreground">Meal Reminders</h3>
+                    <p className="text-muted-foreground">Smart notifications for optimal meal timing and hydration</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="medical-card bg-gradient-to-br from-success/5 to-primary/5">
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold">Today's Plan</h3>
+                    <div className="px-3 py-1 bg-success text-success-foreground rounded-full text-sm">
+                      Day 7
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-success rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">Morning (6:30 AM)</div>
+                        <div className="text-xs text-muted-foreground">Warm water with lemon and honey</div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">Breakfast (8:00 AM)</div>
+                        <div className="text-xs text-muted-foreground">Spiced oats with almonds</div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-muted-foreground rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">Lunch (12:30 PM)</div>
+                        <div className="text-xs text-muted-foreground">Quinoa vegetable bowl</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                    <div className="text-sm text-muted-foreground">Progress</div>
+                    <div className="text-sm font-medium text-success">85% Complete</div>
                   </div>
                 </div>
               </div>
