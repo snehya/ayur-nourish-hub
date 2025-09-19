@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Link, useNavigate } from "react-router-dom";
-import { Leaf, Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Leaf, Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
@@ -58,10 +58,22 @@ const Login = () => {
       <div className="w-full max-w-md p-6 relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center space-x-2 mb-6">
-            <Leaf className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold text-foreground">AyurDiet Pro</span>
-          </Link>
+          <div className="flex items-center justify-between mb-6">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Button>
+            <Link to="/" className="inline-flex items-center space-x-2">
+              <Leaf className="h-8 w-8 text-primary" />
+              <span className="text-2xl font-bold text-foreground">AyurDiet Pro</span>
+            </Link>
+            <div className="w-16"></div> {/* Spacer for centering */}
+          </div>
           <h1 className="text-2xl font-bold text-foreground mb-2">Welcome Back</h1>
           <p className="text-muted-foreground">Sign in to your practitioner account</p>
         </div>

@@ -22,15 +22,18 @@ import {
   Utensils,
   Database,
   Brain,
-  BarChart3
+  BarChart3,
+  ArrowLeft
 } from "lucide-react";
 import { DietChartGenerator } from "@/components/DietChartGenerator";
 import { FoodDatabase } from "@/components/FoodDatabase";
 import { PatientProfile } from "@/components/PatientProfile";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("dashboard");
+  const navigate = useNavigate();
 
   // Mock data - replace with real data from your backend
   const stats = [
@@ -169,6 +172,16 @@ const Dashboard = () => {
       {/* Sticky Header */}
       <div className="sticky top-0 z-10 border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
         <div className="flex h-16 items-center gap-4 px-6">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Button>
+          
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-primary">AyurDiet Pro</h1>
           </div>
