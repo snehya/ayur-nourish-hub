@@ -44,7 +44,12 @@ const Signup = () => {
         title: "Account Created Successfully!",
         description: "Welcome to AyurDiet Pro. Please check your email to verify your account.",
       });
-      navigate("/dashboard");
+      // Route based on user type
+      if (formData.userType === "patient") {
+        navigate("/patient-dashboard");
+      } else {
+        navigate("/dashboard");
+      }
       setIsLoading(false);
     }, 2000);
   };
@@ -141,6 +146,7 @@ const Signup = () => {
                     </div>
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="patient">Patient</SelectItem>
                     <SelectItem value="practitioner">Ayurvedic Practitioner</SelectItem>
                     <SelectItem value="dietitian">Certified Dietitian</SelectItem>
                     <SelectItem value="doctor">Medical Doctor</SelectItem>

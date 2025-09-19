@@ -24,12 +24,20 @@ const Login = () => {
     setIsLoading(true);
 
     // Simulate authentication - replace with actual auth logic
+    // In real implementation, check user type from backend response
+    const mockUserType = formData.email.includes("patient") ? "patient" : "practitioner";
+    
     setTimeout(() => {
       toast({
         title: "Welcome back!",
         description: "Successfully logged into your AyurDiet Pro account.",
       });
-      navigate("/dashboard");
+      // Route based on user type
+      if (mockUserType === "patient") {
+        navigate("/patient-dashboard");
+      } else {
+        navigate("/dashboard");
+      }
       setIsLoading(false);
     }, 1500);
   };
