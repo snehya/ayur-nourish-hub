@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import { useRef, useEffect } from "react";
 import { 
   Users, 
   Heart, 
@@ -16,8 +17,22 @@ import {
   ArrowRight
 } from "lucide-react";
 import heroImage from "@/assets/hero-ayurveda.jpg";
+import { useParallax, useInView, getParallaxTransform, getScaleTransform, getOpacityValue } from "@/hooks/useParallax";
+import { OshvaLogo } from "@/components/OshvaLogo";
 
 const Landing = () => {
+  const scrollY = useParallax();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  
+  const [setHeroElement, heroInView] = useInView(0.1);
+  const [setFeaturesElement, featuresInView] = useInView(0.1);
+
+  useEffect(() => {
+    if (heroRef.current) setHeroElement(heroRef.current);
+    if (featuresRef.current) setFeaturesElement(featuresRef.current);
+  }, [setHeroElement, setFeaturesElement]);
+
   const features = [
     {
       icon: Users,
@@ -82,8 +97,8 @@ const Landing = () => {
         <div className="container mx-auto px-4 py-4">
           <nav className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Leaf className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-foreground">AyurDiet Pro</span>
+              <OshvaLogo size={32} />
+              <span className="text-xl font-bold text-foreground">Somae</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-muted-foreground hover:text-primary transition-gentle cursor-pointer">Features</a>
@@ -103,11 +118,16 @@ const Landing = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 wellness-gradient opacity-50"></div>
+      <section ref={heroRef} className="relative py-24 overflow-hidden parallax-container">
+        <div 
+          className="absolute inset-0 wellness-gradient opacity-50"
+          style={{ transform: getParallaxTransform(scrollY, 0.2) }}
+        ></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+            <div 
+              className={`space-y-8 transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            >
               <div className="space-y-4">
                 <div className="inline-flex items-center space-x-2 bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
                   <Stethoscope className="h-4 w-4" />
@@ -173,9 +193,11 @@ const Landing = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-24 bg-muted/30">
+      <section ref={featuresRef} id="features" className="py-24 bg-muted/30 parallax-container">
         <div className="container mx-auto px-4">
-          <div className="text-center space-y-4 mb-16">
+          <div 
+            className={`text-center space-y-4 mb-16 transition-all duration-1000 ${featuresInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          >
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
               Comprehensive Practice Management
             </h2>
@@ -187,12 +209,16 @@ const Landing = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="medical-card group">
+              <Card 
+                key={index} 
+                className={`medical-card group transition-all duration-1000 hover:scale-105 hover:shadow-2xl ${featuresInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                style={{ transitionDelay: `${index * 150}ms` }}
+              >
                 <div className="space-y-4">
-                  <div className={`inline-flex p-3 rounded-lg bg-background ${feature.color}`}>
+                  <div className={`inline-flex p-3 rounded-lg bg-background ${feature.color} transition-transform duration-300 group-hover:scale-110`}>
                     <feature.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="text-xl font-semibold text-foreground">{feature.title}</h3>
+                  <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
                   <p className="text-muted-foreground">{feature.description}</p>
                 </div>
               </Card>
@@ -263,7 +289,7 @@ const Landing = () => {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
-                  Why Choose AyurDiet Pro?
+                  Why Choose Somae?
                 </h2>
                 <p className="text-lg text-muted-foreground">
                   Join hundreds of Ayurvedic practitioners who have transformed their practice 
@@ -341,7 +367,7 @@ const Landing = () => {
               Trusted by Leading Practitioners
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              See how AyurDiet Pro is transforming Ayurvedic practices across the country
+              See how Somae is transforming Ayurvedic practices across the country
             </p>
           </div>
 
@@ -352,7 +378,7 @@ const Landing = () => {
                   <Stethoscope className="h-8 w-8 text-primary" />
                 </div>
                 <blockquote className="text-muted-foreground italic">
-                  "AyurDiet Pro has revolutionized my practice. I now create comprehensive diet charts in minutes instead of hours, and my patients love the detailed explanations."
+                  "Somae has revolutionized my practice. I now create comprehensive diet charts in minutes instead of hours, and my patients love the detailed explanations."
                 </blockquote>
                 <div className="space-y-1">
                   <div className="font-semibold text-foreground">Dr. Anjali Sharma</div>
@@ -523,8 +549,8 @@ const Landing = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <Leaf className="h-6 w-6 text-primary" />
-                <span className="text-lg font-bold">AyurDiet Pro</span>
+                <OshvaLogo size={24} />
+                <span className="text-lg font-bold">Somae</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 Bridging ancient Ayurvedic wisdom with modern nutritional science 
@@ -561,7 +587,7 @@ const Landing = () => {
           </div>
 
           <div className="mt-8 pt-8 border-t border-border/50 text-center text-sm text-muted-foreground">
-            <p>&copy; 2024 AyurDiet Pro. All rights reserved. Approved by Ministry of AYUSH.</p>
+            <p>&copy; 2024 Somae. All rights reserved. Approved by Ministry of AYUSH.</p>
           </div>
         </div>
       </footer>

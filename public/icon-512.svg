@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Primary gradient for main elements -->
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#059669;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#047857;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Secondary gradient for accent elements -->
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Radial gradient for depth -->
+    <radialGradient id="depthGrad" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+    
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Background circle with subtle shadow -->
+  <circle cx="256" cy="256" r="240" fill="url(#primaryGrad)" filter="url(#shadow)"/>
+  
+  <!-- Outer decorative ring -->
+  <circle cx="256" cy="256" r="216" fill="none" stroke="url(#accentGrad)" stroke-width="8" opacity="0.8"/>
+  
+  <!-- Main Ayurvedic leaf symbol -->
+  <g transform="translate(256,256)">
+    <!-- Central leaf (larger) -->
+    <path d="M0,-160 C-64,-128 -96,-64 -96,0 C-96,64 -64,128 0,160 C64,128 96,64 96,0 C96,-64 64,-128 0,-160Z" 
+          fill="url(#accentGrad)" opacity="0.9"/>
+    
+    <!-- Left leaf -->
+    <path d="M-112,-80 C-144,-64 -160,-32 -160,0 C-160,32 -144,64 -112,80 C-80,64 -64,32 -64,0 C-64,-32 -80,-64 -112,-80Z" 
+          fill="#ffffff" opacity="0.8" transform="rotate(-30)"/>
+    
+    <!-- Right leaf -->
+    <path d="M112,-80 C144,-64 160,-32 160,0 C160,32 144,64 112,80 C80,64 64,32 64,0 C64,-32 80,-64 112,-80Z" 
+          fill="#ffffff" opacity="0.8" transform="rotate(30)"/>
+    
+    <!-- Central vein -->
+    <line x1="0" y1="-128" x2="0" y2="128" stroke="#ffffff" stroke-width="12" opacity="0.9"/>
+    
+    <!-- Small decorative dots (representing balance) -->
+    <circle cx="0" cy="-48" r="12" fill="#ffffff" opacity="0.7"/>
+    <circle cx="0" cy="0" r="16" fill="#ffffff" opacity="0.9"/>
+    <circle cx="0" cy="48" r="12" fill="#ffffff" opacity="0.7"/>
+  </g>
+  
+  <!-- Subtle highlight on top -->
+  <ellipse cx="256" cy="128" rx="128" ry="48" fill="url(#depthGrad)"/>
+  
+  <!-- Small wellness symbols around the border -->
+  <g fill="#ffffff" opacity="0.6" font-family="Arial, sans-serif" font-size="32" text-anchor="middle">
+    <!-- OM symbol stylized -->
+    <text x="256" y="80" font-size="48">॰</text>
+    <!-- Wellness dots -->
+    <circle cx="128" cy="160" r="8"/>
+    <circle cx="384" cy="160" r="8"/>
+    <circle cx="128" cy="352" r="8"/>
+    <circle cx="384" cy="352" r="8"/>
+  </g>
+</svg>

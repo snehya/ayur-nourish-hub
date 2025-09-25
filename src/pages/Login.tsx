@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Link, useNavigate } from "react-router-dom";
 import { Leaf, Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { OshvaLogo } from "@/components/OshvaLogo";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +31,7 @@ const Login = () => {
     setTimeout(() => {
       toast({
         title: "Welcome back!",
-        description: "Successfully logged into your AyurDiet Pro account.",
+        description: "Successfully logged into your Somae account.",
       });
       // Route based on user type
       if (mockUserType === "patient") {
@@ -69,8 +70,8 @@ const Login = () => {
               Back
             </Button>
             <Link to="/" className="inline-flex items-center space-x-2">
-              <Leaf className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold text-foreground">AyurDiet Pro</span>
+              <OshvaLogo size={32} />
+              <span className="text-2xl font-bold text-foreground">Somae</span>
             </Link>
             <div className="w-16"></div> {/* Spacer for centering */}
           </div>
