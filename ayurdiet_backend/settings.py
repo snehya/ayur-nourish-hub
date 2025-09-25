@@ -22,6 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(BASE_DIR / '.env')
 
+# Supabase Configuration
+SUPABASE_URL = "https://bizmbwpgbbdgdjktffni.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpem1id3BnYmJkZ2Rqa3RmZm5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4MjQxOTAsImV4cCI6MjA3NDQwMDE5MH0.r2hY7J-04Ln91S4EvFtqiZtyYrx71zRg16oqvY1RL2I"
+SUPABASE_SERVICE_ROLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpem1id3BnYmJkZ2Rqa3RmZm5pIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODgyNDE5MCwiZXhwIjoyMDc0NDAwMTkwfQ.3_cHaE4TaZgauLNMiSVXA_KnV0tUwzgxGFZVfY34nRM"
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -92,32 +97,28 @@ WSGI_APPLICATION = 'ayurdiet_backend.wsgi.application'
 
 # 🔄 DATABASE SELECTION: Choose your database by commenting/uncommenting sections
 
-# Option 1: SQLite (Development - Currently Active)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# Option 2: Supabase PostgreSQL (Production Ready)
-# To switch to Supabase:
-# 1. Set up your Supabase project (see SUPABASE_SETUP_GUIDE.md)
-# 2. Update your .env file with actual Supabase credentials
-# 3. Comment out the SQLite section above
-# 4. Uncomment the PostgreSQL section below
-# 5. Run: python manage.py migrate
-
+# Option 1: SQLite (Development - Commented Out)
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': env('DB_NAME', default='postgres'),
-#         'USER': env('DB_USER', default='postgres'),
-#         'PASSWORD': env('DB_PASSWORD', default=''),
-#         'HOST': env('DB_HOST', default='localhost'),
-#         'PORT': env('DB_PORT', default='5432'),
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+# Option 2: Supabase PostgreSQL (Currently Active)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'Sneh@172569',  # Your Supabase database password
+        'HOST': 'db.bizmbwpgbbdgdjktffni.supabase.co',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
+    }
+}
 
 # Alternative: Using DATABASE_URL (if you prefer single URL format)
 # DATABASES = {
