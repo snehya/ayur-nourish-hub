@@ -87,9 +87,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ayurdiet_backend.wsgi.application'
 
 
-# Database
+# Database Configuration
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# 🔄 DATABASE SELECTION: Choose your database by commenting/uncommenting sections
+
+# Option 1: SQLite (Development - Currently Active)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -97,8 +100,26 @@ DATABASES = {
     }
 }
 
-# Uncomment the following section and comment out the SQLite configuration above 
-# once you have configured your Supabase credentials in the .env file
+# Option 2: Supabase PostgreSQL (Production Ready)
+# To switch to Supabase:
+# 1. Set up your Supabase project (see SUPABASE_SETUP_GUIDE.md)
+# 2. Update your .env file with actual Supabase credentials
+# 3. Comment out the SQLite section above
+# 4. Uncomment the PostgreSQL section below
+# 5. Run: python manage.py migrate
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': env('DB_NAME', default='postgres'),
+#         'USER': env('DB_USER', default='postgres'),
+#         'PASSWORD': env('DB_PASSWORD', default=''),
+#         'HOST': env('DB_HOST', default='localhost'),
+#         'PORT': env('DB_PORT', default='5432'),
+#     }
+# }
+
+# Alternative: Using DATABASE_URL (if you prefer single URL format)
 # DATABASES = {
 #     'default': env.db(
 #         'DATABASE_URL',
