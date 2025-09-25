@@ -8,12 +8,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { Leaf, Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { OshvaLogo } from "@/components/OshvaLogo";
+import { authService } from "@/services/authService";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: ""
   });
   
@@ -24,23 +25,36 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate authentication - replace with actual auth logic
-    // In real implementation, check user type from backend response
-    const mockUserType = formData.email.includes("patient") ? "patient" : "practitioner";
-    
-    setTimeout(() => {
+    try {
+      // Use our authentication service
+      await authService.login({
+        username: formData.username,
+        password: formData.password
+      });
+
+      // Get user info after successful login
+      const user = authService.getCurrentUser();
+      
       toast({
         title: "Welcome back!",
-        description: "Successfully logged into your Somae account.",
+        description: `Successfully logged into your AyurDiet Pro account.`,
       });
+
       // Route based on user type
-      if (mockUserType === "patient") {
+      if (user?.user_type === "patient") {
         navigate("/patient-dashboard");
       } else {
         navigate("/dashboard");
       }
+    } catch (error) {
+      toast({
+        title: "Login Failed",
+        description: error instanceof Error ? error.message : "Invalid credentials. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,17 +104,17 @@ const Login = () => {
           <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium">
-                  Email Address
+                <Label htmlFor="username" className="text-sm font-medium">
+                  Username
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder="Enter your username"
+                    value={formData.username}
                     onChange={handleChange}
                     className="pl-10 h-12"
                     required
