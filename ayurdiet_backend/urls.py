@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include('api.urls')),
+    path('api/', include('diet_planner.urls')),  # Add diet planner API endpoints
     
     # API Documentation
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
