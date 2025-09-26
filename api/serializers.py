@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from diet_planner.models import Patient, Food, DietPlan
+from django.contrib.auth import get_user_model
 import re
+
+User = get_user_model()
 
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -97,3 +100,34 @@ class DietPlanSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError("You can only create diet plans for your own patients.")
         
         return data
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """Serializer for user profile"""
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'user_type']
+        read_only_fields = ['id']
+
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    """Serializer for user registration"""
+    password = serializers.CharField(write_only=True, min_length=6)
+    password_confirm = serializers.CharField(write_only=True)
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'password_confirm', 'first_name', 'last_name', 'user_type']
+    
+    def validate(self, data):
+        if data['password'] != data['password_confirm']:
+            raise serializers.ValidationError("Passwords don't match")
+        return data
+    
+    def create(self, validated_data):
+        validated_data.pop('password_confirm')
+        password = validated_data.pop('password')
+        user = User.objects.create_user(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user

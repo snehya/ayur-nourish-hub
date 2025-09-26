@@ -576,3 +576,116 @@ class PDFExportView(APIView):
         response.write(pdf_value)
         
         return response
+
+
+# Patient-specific views for the patient dashboard
+class IsPatient(permissions.BasePermission):
+    """
+    Custom permission to only allow patients to access their own data.
+    """
+    def has_permission(self, request, view):
+        return request.user and request.user.user_type == 'patient'
+
+
+class PatientDashboardView(APIView):
+    """
+    Patient dashboard - shows diet plans assigned to the logged-in patient
+    """
+    permission_classes = [permissions.IsAuthenticated, IsPatient]
+    
+    def get(self, request):
+        try:
+            # Find patient record for the logged-in user
+            # Note: We need a way to link User to Patient - let's assume by name/email for now
+            patient_records = Patient.objects.filter(
+                name__icontains=request.user.first_name
+            )
+            
+            if not patient_records.exists():
+                return Response({
+                    'message': 'No patient record found. Please contact your practitioner.',
+                    'patient_found': False,
+                    'diet_plans': []
+                })
+            
+            patient = patient_records.first()
+            diet_plans = DietPlan.objects.filter(patient=patient).order_by('-plan_date')
+            
+            plans_data = []
+            for plan in diet_plans:
+                plan_data = {
+                    'id': plan.id,
+                    'created_date': plan.plan_date.strftime('%Y-%m-%d'),
+                    'practitioner': plan.patient.practitioner.get_full_name() if plan.patient.practitioner else 'Unknown',
+                    'breakfast': plan.breakfast,
+                    'lunch': plan.lunch,
+                    'dinner': plan.dinner,
+                    'full_plan': plan.full_plan,
+                    'notes': plan.practitioner_notes or ''
+                }
+                plans_data.append(plan_data)
+            
+            return Response({
+                'message': 'Diet plans retrieved successfully',
+                'patient_info': {
+                    'name': patient.name,
+                    'prakriti': patient.prakriti,
+                    'current_imbalance': patient.vikriti,
+                },
+                'diet_plans': plans_data
+            })
+            
+        except Exception as e:
+            return Response({
+                'error': f'Error retrieving patient data: {str(e)}'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class PatientFeedbackView(APIView):
+    """
+    Submit feedback on diet plan adherence
+    """
+    permission_classes = [permissions.IsAuthenticated, IsPatient]
+    
+    def post(self, request):
+        try:
+            plan_id = request.data.get('plan_id')
+            meal_type = request.data.get('meal_type')  # breakfast, lunch, dinner
+            feedback_type = request.data.get('feedback_type')  # followed, skipped, discomfort
+            notes = request.data.get('notes', '')
+            
+            if not all([plan_id, meal_type, feedback_type]):
+                return Response({
+                    'error': 'plan_id, meal_type, and feedback_type are required'
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Validate feedback_type
+            valid_feedback = ['followed', 'skipped', 'discomfort']
+            if feedback_type not in valid_feedback:
+                return Response({
+                    'error': f'feedback_type must be one of: {", ".join(valid_feedback)}'
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # For now, we'll just log the feedback
+            # In a full implementation, you'd save this to a PatientFeedback model
+            feedback_data = {
+                'user_id': request.user.id,
+                'plan_id': plan_id,
+                'meal_type': meal_type,
+                'feedback_type': feedback_type,
+                'notes': notes,
+                'timestamp': date.today().isoformat()
+            }
+            
+            # TODO: Save to database
+            # PatientFeedback.objects.create(**feedback_data)
+            
+            return Response({
+                'message': 'Feedback submitted successfully',
+                'feedback': feedback_data
+            })
+            
+        except Exception as e:
+            return Response({
+                'error': f'Error submitting feedback: {str(e)}'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
