@@ -325,99 +325,101 @@ class GenerateDietPlanView(APIView):
             return Response({'error': 'Patient ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
+            from hybrid_ai_diet_generator import HybridAIAyurvedicDietGenerator, format_hybrid_diet_plan_output
+            
             patient = Patient.objects.get(id=patient_id, practitioner=request.user)
 
-            # Prepare the patient data to send to your AI model
-            patient_data = {
-                'prakriti': patient.prakriti,
-                'vikriti': patient.vikriti,
-                'agni': patient.agni,
-                'health_parameters': patient.health_parameters
+            # Initialize the hybrid AI-enhanced diet generator
+            diet_generator = HybridAIAyurvedicDietGenerator()
+            
+            # Generate AI-enhanced balanced diet plan
+            diet_plan_data = diet_generator.generate_hybrid_diet_plan(patient)
+            
+            # Format the output for display
+            formatted_output = format_hybrid_diet_plan_output(patient, diet_plan_data)
+            
+            # Prepare structured data for database storage
+            plan_structure = {
+                'breakfast': {
+                    'foods': [
+                        {
+                            'name': food['food'].name,
+                            'calories': food['calories'],
+                            'protein': food['protein'],
+                            'properties': food['properties'],
+                            'ai_recommended': food.get('ai_recommended', False)
+                        } for food in diet_plan_data['breakfast']['foods']
+                    ],
+                    'total_calories': diet_plan_data['breakfast']['total_calories'],
+                    'total_protein': diet_plan_data['breakfast']['total_protein']
+                },
+                'lunch': {
+                    'foods': [
+                        {
+                            'name': food['food'].name,
+                            'calories': food['calories'],
+                            'protein': food['protein'],
+                            'properties': food['properties'],
+                            'ai_recommended': food.get('ai_recommended', False)
+                        } for food in diet_plan_data['lunch']['foods']
+                    ],
+                    'total_calories': diet_plan_data['lunch']['total_calories'],
+                    'total_protein': diet_plan_data['lunch']['total_protein']
+                },
+                'dinner': {
+                    'foods': [
+                        {
+                            'name': food['food'].name,
+                            'calories': food['calories'],
+                            'protein': food['protein'],
+                            'properties': food['properties'],
+                            'ai_recommended': food.get('ai_recommended', False)
+                        } for food in diet_plan_data['dinner']['foods']
+                    ],
+                    'total_calories': diet_plan_data['dinner']['total_calories'],
+                    'total_protein': diet_plan_data['dinner']['total_protein']
+                },
+                'daily_totals': diet_plan_data['daily_totals'],
+                'rasa_analysis': diet_plan_data['rasa_analysis'],
+                'ayurvedic_analysis': diet_plan_data['ayurvedic_analysis'],
+                'ai_recommendations': diet_plan_data.get('ai_recommendations', {}),
+                'formatted_output': formatted_output,
+                'generation_method': 'Hybrid AI-Enhanced Algorithm v3.0',
+                'generation_date': date.today().isoformat()
             }
 
-            # Create a structured prompt for the AI
-            prompt = f"""
-            Generate a personalized Ayurvedic diet plan for a patient with the following characteristics:
-            - Prakriti (Constitution): {patient.prakriti}
-            - Vikriti (Current Imbalance): {patient.vikriti}
-            - Agni (Digestive Fire): {patient.agni}
-            - Health Parameters: {patient.health_parameters}
-            
-            Please provide a detailed daily diet plan including:
-            1. Breakfast recommendations with specific foods
-            2. Lunch recommendations with specific foods
-            3. Dinner recommendations with specific foods
-            4. General dietary guidelines based on their dosha
-            5. Foods to avoid
-            6. Recommended eating times
-            
-            Format the response as a structured JSON with breakfast, lunch, dinner, and guidelines sections.
-            """
-
-            # Prepare the request for Google AI Studio (Gemini)
-            ai_request_data = {
-                "contents": [{
-                    "parts": [{
-                        "text": prompt
-                    }]
-                }]
-            }
-
-            # Make the request to Google AI Studio API
-            ai_response = requests.post(
-                f"{config('GOOGLE_AI_STUDIO_API_URL')}?key={config('GOOGLE_AI_STUDIO_API_KEY')}",
-                headers={'Content-Type': 'application/json'},
-                json=ai_request_data
-            )
-
-            # Check for successful response
-            if ai_response.status_code != 200:
-                return Response(
-                    {'error': f'Failed to get a response from AI API. Status: {ai_response.status_code}'}, 
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
-                )
-
-            ai_response_data = ai_response.json()
-            
-            # Extract the generated content from Gemini response
-            if 'candidates' in ai_response_data and len(ai_response_data['candidates']) > 0:
-                generated_content = ai_response_data['candidates'][0]['content']['parts'][0]['text']
-                
-                # Try to parse as JSON, if it fails, store as text
-                try:
-                    ai_generated_plan = json.loads(generated_content)
-                except json.JSONDecodeError:
-                    # If not valid JSON, structure it ourselves
-                    ai_generated_plan = {
-                        'generated_content': generated_content,
-                        'patient_data': patient_data,
-                        'generation_date': date.today().isoformat()
-                    }
-            else:
-                return Response(
-                    {'error': 'No content generated by AI'}, 
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
-                )
-
-            # Save the AI-generated plan to the database
+            # Save the generated plan to the database
             diet_plan = DietPlan.objects.create(
                 patient=patient,
                 plan_date=date.today(),
-                full_plan=ai_generated_plan,
-                breakfast=ai_generated_plan.get('breakfast', {}),
-                lunch=ai_generated_plan.get('lunch', {}),
-                dinner=ai_generated_plan.get('dinner', {})
+                full_plan=plan_structure,
+                breakfast=plan_structure['breakfast'],
+                lunch=plan_structure['lunch'],
+                dinner=plan_structure['dinner']
             )
 
-            serializer = DietPlanSerializer(diet_plan)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            # Return comprehensive response
+            response_data = {
+                'diet_plan_id': diet_plan.id,
+                'patient_name': patient.name,
+                'generation_date': date.today().isoformat(),
+                'method': 'Hybrid AI-Enhanced Ayurvedic Algorithm',
+                'formatted_plan': formatted_output,
+                'nutrition_summary': {
+                    'total_calories': diet_plan_data['daily_totals']['calories'],
+                    'total_protein': diet_plan_data['daily_totals']['protein'],
+                    'unique_foods_count': len(set(f['food'].name for meal in [diet_plan_data['breakfast'], diet_plan_data['lunch'], diet_plan_data['dinner']] for f in meal['foods'])),
+                    'rasa_distribution': diet_plan_data['rasa_analysis']
+                },
+                'detailed_breakdown': plan_structure
+            }
+
+            return Response(response_data, status=status.HTTP_201_CREATED)
 
         except Patient.DoesNotExist:
             return Response({'error': 'Patient not found or you do not have permission to access this patient.'}, status=status.HTTP_404_NOT_FOUND)
-        except requests.exceptions.RequestException as e:
-            return Response({'error': f'Failed to connect to AI API: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except Exception as e:
-            return Response({'error': f'An unexpected error occurred: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': f'Diet generation failed: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class PDFExportView(APIView):
     """
