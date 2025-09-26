@@ -325,7 +325,7 @@ class GenerateDietPlanView(APIView):
             return Response({'error': 'Patient ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            from hybrid_ai_diet_generator import HybridAIAyurvedicDietGenerator, format_hybrid_diet_plan_output
+            from diet_planner.hybrid_ai_diet_generator import HybridAIAyurvedicDietGenerator, format_hybrid_diet_plan_output
             
             patient = Patient.objects.get(id=patient_id, practitioner=request.user)
 
